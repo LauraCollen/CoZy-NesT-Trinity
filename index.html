@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CoZyNesT — Pengelolaan Kost yang Nyaman</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=Fraunces:opsz,wght@9..144,600;9..144,700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body class="landing-page">
+  <header class="landing-nav">
+    <a class="landing-logo" href="index.html">🏠 CoZyNesT</a>
+    <nav class="landing-links">
+      <a href="#fitur">Fitur</a>
+      <a href="#alur">Cara kerja</a>
+      <a href="#peran">Peran</a>
+      <a href="#kontak">Kontak</a>
+    </nav>
+    <div class="landing-nav-actions">
+      <a class="btn btn-ghost" href="login.html">Masuk</a>
+      <a class="btn btn-primary" href="login.html">Kelola Kost</a>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div class="hero-copy">
+      <p class="eyebrow">Untuk pemilik, penghuni, dan calon penghuni</p>
+      <h1>Kost rapi, tagihan jelas, kamar mudah dipesan.</h1>
+      <p class="hero-lead">
+        CoZyNesT membagi halaman sesuai peran: pengelola mengatur operasional, penghuni membayar dan mengadu, calon penghuni mencari kamar dan memesan.
+      </p>
+      <div class="hero-actions">
+        <a class="btn btn-primary" href="login.html">Masuk atau daftar</a>
+        <a class="btn btn-ghost" href="#fitur">Lihat fitur</a>
+      </div>
+      <p class="hero-note">
+        Demo — Pemilik: admin@cozynest.id / admin123 · Penghuni: siti@email.com / penghuni123 · Calon: fajar@email.com / calon123
+      </p>
+    </div>
+    <div class="hero-card">
+      <div class="hero-stat"><span>Tiga peran</span><strong>Admin · Penghuni · Calon</strong></div>
+      <div class="hero-stat"><span>Hak akses</span><strong>Ditolak jika bukan wewenang</strong></div>
+      <div class="hero-stat"><span>Tagihan</span><strong>Otomatis tiap periode</strong></div>
+      <p class="hero-card-caption">Sesi berakhir saat logout. Kata sandi disimpan dalam hash.</p>
+    </div>
+  </section>
+
+  <section class="landing-section" id="fitur">
+    <h2>Fitur sesuai kebutuhan</h2>
+    <div class="feature-grid">
+      <article class="feature-card"><h3>Daftar & pesan kamar</h3><p>Calon penghuni mencari kamar tersedia, melihat detail, lalu mengisi form pemesanan.</p></article>
+      <article class="feature-card"><h3>Tagihan & bukti bayar</h3><p>Penghuni melihat tagihan, unggah bukti transfer, dan meninjau riwayat lunas atau menunggak.</p></article>
+      <article class="feature-card"><h3>Pengaduan fasilitas</h3><p>Penghuni mengirim keluhan; pengelola mengubah status dan memberi catatan.</p></article>
+      <article class="feature-card"><h3>Verifikasi pembayaran</h3><p>Pemilik menyetujui atau menolak bukti, mencatat pemasukan sekali, tanpa verifikasi ganda.</p></article>
+      <article class="feature-card"><h3>Keuangan & hunian</h3><p>Pemasukan, pengeluaran, laporan 12 bulan, CSV, dan persentase tingkat hunian.</p></article>
+      <article class="feature-card"><h3>Invoice</h3><p>Buat tagihan otomatis per periode, cetak, dan kirim lewat email atau WhatsApp.</p></article>
+    </div>
+  </section>
+
+  <section class="landing-section" id="peran">
+    <h2>Tiga jenis pengguna</h2>
+    <div class="feature-grid">
+      <article class="feature-card"><h3>Pemilik / pengelola</h3><p>Dashboard, kamar, penghuni, reservasi, verifikasi, tunggakan, pengaduan, keuangan, laporan, hunian, dan invoice.</p></article>
+      <article class="feature-card"><h3>Penghuni</h3><p>Ringkasan sewa, daftar tagihan milik sendiri, unggah bukti, riwayat pembayaran, dan pengaduan.</p></article>
+      <article class="feature-card"><h3>Calon penghuni</h3><p>Katalog kamar, detail, form pemesanan, dan status Confirmed atau Cancelled.</p></article>
+    </div>
+  </section>
+
+  <section class="landing-section landing-steps" id="alur">
+    <h2>Cara kerja</h2>
+    <ol class="steps">
+      <li><strong>Masuk atau daftar</strong> pada halaman login dengan tab Masuk dan Daftar.</li>
+      <li><strong>Sistem mengarahkan</strong> ke dashboard sesuai peran akun Anda.</li>
+      <li><strong>Kelola atau pesan</strong> — pemilik memverifikasi, penghuni membayar, calon memesan kamar.</li>
+    </ol>
+  </section>
+
+  <footer class="landing-footer" id="kontak">
+    <div>
+      <strong>CoZyNesT</strong>
+      <p>Kelola kost dengan nyaman.</p>
+    </div>
+    <div>
+      <p>hello@cozynest.id</p>
+      <p>0812-3456-7890</p>
+      <p>Jl. Melati No. 12, Yogyakarta</p>
+    </div>
+    <a class="btn btn-primary" href="login.html">Masuk / Kelola Kost</a>
+  </footer>
+  <script src="auth.js"></script>
+</body>
+</html>

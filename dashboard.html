@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CoZyNesT</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=Fraunces:opsz,wght@9..144,600;9..144,700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar" id="sidebar">
+      <div class="brand">
+        <span class="brand-icon" aria-hidden="true">🏠</span>
+        <div>
+          <h1 class="brand-name">CoZyNesT</h1>
+          <p class="brand-tagline" id="roleTagline">Kelola kost dengan nyaman</p>
+        </div>
+      </div>
+      <nav class="nav" id="mainNav" aria-label="Menu utama"></nav>
+      <div class="sidebar-footer">
+        <p>Sesi aktif di tab ini</p>
+        <a class="sidebar-home" href="index.html">Beranda</a>
+      </div>
+    </aside>
+
+    <div class="main-wrap">
+      <header class="topbar">
+        <button type="button" class="menu-toggle" id="menuToggle" aria-label="Buka menu">☰</button>
+        <div class="topbar-title">
+          <h2 id="pageTitle">Dashboard</h2>
+          <p id="pageSubtitle"></p>
+        </div>
+        <div class="topbar-meta">
+          <span class="date-badge" id="todayDate"></span>
+          <span class="user-badge" id="sessionUser">Pengguna</span>
+          <button type="button" class="btn btn-ghost btn-sm" id="btnLogout">Keluar</button>
+        </div>
+      </header>
+
+      <main class="content">
+        <!-- OWNER -->
+        <section class="view" id="view-dashboard">
+          <div class="stats-grid">
+            <article class="stat-card stat-rooms">
+              <div class="stat-label">Total Kamar</div>
+              <div class="stat-value" id="statTotalRooms">0</div>
+              <div class="stat-detail"><span id="statAvailRooms">0</span> tersedia</div>
+            </article>
+            <article class="stat-card stat-tenants">
+              <div class="stat-label">Penghuni Aktif</div>
+              <div class="stat-value" id="statTenants">0</div>
+              <div class="stat-detail">Terisi <span id="statOccupancy">0</span>%</div>
+            </article>
+            <article class="stat-card stat-reservations">
+              <div class="stat-label">Reservasi Pending</div>
+              <div class="stat-value" id="statReservations">0</div>
+              <div class="stat-detail">Perlu konfirmasi</div>
+            </article>
+            <article class="stat-card stat-balance">
+              <div class="stat-label">Saldo Bulan Ini</div>
+              <div class="stat-value" id="statBalance">Rp 0</div>
+              <div class="stat-detail">Pemasukan − pengeluaran</div>
+            </article>
+          </div>
+          <div class="dashboard-panels">
+            <div class="panel">
+              <h3>Kamar per Status</h3>
+              <div class="room-status-bars" id="roomStatusBars"></div>
+            </div>
+            <div class="panel">
+              <h3>Aktivitas Terbaru</h3>
+              <ul class="activity-list" id="activityList"></ul>
+            </div>
+          </div>
+        </section>
+
+        <section class="view" id="view-profile">
+          <div class="panel form-panel">
+            <h3>Informasi Kost</h3>
+            <form id="profileForm" class="form-grid">
+              <label class="field span-2"><span>Nama Kost</span><input type="text" name="name" required /></label>
+              <label class="field span-2"><span>Alamat Lengkap</span><textarea name="address" rows="2"></textarea></label>
+              <label class="field"><span>Kota</span><input type="text" name="city" /></label>
+              <label class="field"><span>Kode Pos</span><input type="text" name="postal" /></label>
+              <label class="field"><span>Telepon / WhatsApp</span><input type="tel" name="phone" /></label>
+              <label class="field"><span>Email</span><input type="email" name="email" /></label>
+              <label class="field"><span>Pemilik / Pengelola</span><input type="text" name="owner" /></label>
+              <label class="field"><span>NPWP (opsional)</span><input type="text" name="npwp" /></label>
+              <label class="field span-2"><span>Deskripsi & Fasilitas</span><textarea name="description" rows="4"></textarea></label>
+              <label class="field"><span>Rekening Bank</span><input type="text" name="bankAccount" /></label>
+              <label class="field"><span>Logo URL (opsional)</span><input type="url" name="logoUrl" /></label>
+              <div class="form-actions span-2"><button type="submit" class="btn btn-primary">Simpan Profile</button></div>
+            </form>
+          </div>
+          <div class="panel preview-panel" id="profilePreview"></div>
+        </section>
+
+        <section class="view" id="view-rooms">
+          <div class="toolbar">
+            <button type="button" class="btn btn-primary" id="btnAddRoom">+ Tambah Kamar</button>
+            <input type="search" class="search-input" id="roomSearch" placeholder="Cari nomor / tipe..." />
+          </div>
+          <div class="table-wrap">
+            <table class="data-table" id="roomsTable">
+              <thead><tr><th>No. Kamar</th><th>Tipe</th><th>Harga / bulan</th><th>Status</th><th>Fasilitas</th><th>Aksi</th></tr></thead>
+              <tbody></tbody>
+            </table>
+          </div>
+        </section>
+
+        <section class="view" id="view-tenants">
+          <div class="toolbar">
+            <button type="button" class="btn btn-primary" id="btnAddTenant">+ Tambah Penghuni</button>
+            <input type="search" class="search-input" id="tenantSearch" placeholder="Cari nama / KTP..." />
+          </div>
+          <div class="table-wrap">
+            <table class="data-table" id="tenantsTable">
+              <thead><tr><th>Nama</th><th>Kamar</th><th>Kontak</th><th>Masuk</th><th>Masa sewa</th><th>Tagihan/bulan</th><th>Status</th><th>Aksi</th></tr></thead>
+              <tbody></tbody>
+            </table>
+          </div>
+        </section>
+
+        <section class="view" id="view-print-tenants">
+          <div class="toolbar no-print">
+            <button type="button" class="btn btn-secondary" id="btnPrintTenants">🖨️ Cetak / PDF</button>
+            <select id="printFilterStatus" class="select-input">
+              <option value="all">Semua status</option>
+              <option value="active">Aktif saja</option>
+              <option value="inactive">Nonaktif</option>
+            </select>
+          </div>
+          <div class="print-area" id="printTenantsArea">
+            <header class="print-header">
+              <div id="printKostHeader"></div>
+              <h2>Daftar Penghuni</h2>
+              <p class="print-meta" id="printTenantsMeta"></p>
+              <p class="print-meta">Nomor identitas ditampilkan tersamar demi kerahasiaan.</p>
+            </header>
+            <table class="print-table" id="printTenantsTable">
+              <thead><tr><th>No</th><th>Nama</th><th>KTP</th><th>Kamar</th><th>Telepon</th><th>Tgl Masuk</th><th>Tagihan</th><th>Status</th></tr></thead>
+              <tbody></tbody>
+            </table>
+            <footer class="print-footer"><p>Dicetak dari CoZyNesT — <span id="printDate"></span></p></footer>
+          </div>
+        </section>
+
+        <section class="view" id="view-reservations">
+          <div class="toolbar">
+            <button type="button" class="btn btn-primary" id="btnAddReservation">+ Reservasi Baru</button>
+          </div>
+          <div class="reservation-grid" id="reservationCards"></div>
+        </section>
+
+        <section class="view" id="view-verify-payments">
+          <p class="muted" id="verifyEmpty"></p>
+          <div class="reservation-grid" id="verifyCards"></div>
+        </section>
+
+        <section class="view" id="view-arrears">
+          <div class="table-wrap">
+            <table class="data-table" id="arrearsTable">
+              <thead><tr><th>Penghuni</th><th>Invoice</th><th>Periode</th><th>Jatuh tempo</th><th>Nominal</th><th>Status</th></tr></thead>
+              <tbody></tbody>
+            </table>
+          </div>
+        </section>
+
+        <section class="view" id="view-complaints-admin">
+          <div class="table-wrap">
+            <table class="data-table" id="adminComplaintsTable">
+              <thead><tr><th>Tanggal</th><th>Penghuni</th><th>Kategori</th><th>Deskripsi</th><th>Status</th><th>Catatan</th><th>Aksi</th></tr></thead>
+              <tbody></tbody>
+            </table>
+          </div>
+        </section>
+
+        <section class="view" id="view-finance">
+          <div class="toolbar">
+            <button type="button" class="btn btn-success" id="btnAddIncome">+ Pemasukan</button>
+            <button type="button" class="btn btn-danger" id="btnAddExpense">+ Pengeluaran</button>
+            <select id="financeMonthFilter" class="select-input"></select>
+          </div>
+          <div class="finance-summary">
+            <div class="finance-box income"><span>Pemasukan</span><strong id="financeIncomeTotal">Rp 0</strong></div>
+            <div class="finance-box expense"><span>Pengeluaran</span><strong id="financeExpenseTotal">Rp 0</strong></div>
+            <div class="finance-box net"><span>Net</span><strong id="financeNetTotal">Rp 0</strong></div>
+          </div>
+          <div class="table-wrap">
+            <table class="data-table" id="financeTable">
+              <thead><tr><th>Tanggal</th><th>Tipe</th><th>Kategori</th><th>Keterangan</th><th>Jumlah</th><th>Aksi</th></tr></thead>
+              <tbody></tbody>
+            </table>
+          </div>
+        </section>
+
+        <section class="view" id="view-reports">
+          <div class="toolbar">
+            <select id="reportYear" class="select-input"></select>
+            <button type="button" class="btn btn-secondary" id="btnExportReport">Unduh Laporan (CSV)</button>
+          </div>
+          <div class="report-charts">
+            <div class="panel">
+              <h3>Pemasukan vs Pengeluaran (12 Bulan)</h3>
+              <div class="chart-bars" id="yearlyChart"></div>
+            </div>
+            <div class="panel">
+              <h3>Breakdown Kategori</h3>
+              <div id="categoryBreakdown"></div>
+            </div>
+          </div>
+          <div class="panel">
+            <h3>Ringkasan Tahunan</h3>
+            <table class="data-table" id="reportSummaryTable">
+              <thead><tr><th>Bulan</th><th>Pemasukan</th><th>Pengeluaran</th><th>Saldo</th></tr></thead>
+              <tbody></tbody>
+            </table>
+          </div>
+        </section>
+
+        <section class="view" id="view-occupancy">
+          <div class="stats-grid">
+            <article class="stat-card stat-tenants">
+              <div class="stat-label">Tingkat Hunian</div>
+              <div class="stat-value" id="occPct">0%</div>
+              <div class="stat-detail">Kamar terisi / total kamar</div>
+            </article>
+            <article class="stat-card stat-rooms">
+              <div class="stat-label">Terisi</div>
+              <div class="stat-value" id="occFilled">0</div>
+            </article>
+            <article class="stat-card stat-balance">
+              <div class="stat-label">Total kamar</div>
+              <div class="stat-value" id="occTotal">0</div>
+            </article>
+          </div>
+          <div class="panel">
+            <h3>Gauge hunian</h3>
+            <div class="status-bar-track occ-track"><div class="status-bar-fill" id="occFill" style="width:0;background:#c45c3e"></div></div>
+            <p class="muted" id="occCaption"></p>
+          </div>
+        </section>
+
+        <section class="view" id="view-invoices">
+          <div class="toolbar">
+            <button type="button" class="btn btn-primary" id="btnCreateInvoice">Buat Invoice</button>
+          </div>
+          <div class="invoice-layout">
+            <div class="panel">
+              <h3>Riwayat Invoice</h3>
+              <ul class="invoice-list" id="invoiceList"></ul>
+            </div>
+            <div class="panel invoice-preview-wrap">
+              <h3>Preview & Kirim</h3>
+              <div id="invoicePreview" class="invoice-document"><p class="muted">Pilih invoice atau buat baru.</p></div>
+              <div class="invoice-actions no-print" id="invoiceActions" hidden>
+                <button type="button" class="btn btn-secondary" id="btnPrintInvoice">Cetak</button>
+                <button type="button" class="btn btn-primary" id="btnSendInvoice">Kirim via Email / WhatsApp</button>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- GUEST -->
+        <section class="view" id="view-browse-rooms">
+          <div class="toolbar">
+            <input type="search" class="search-input" id="browseSearch" placeholder="Cari nomor, tipe, atau harga..." />
+          </div>
+          <div class="room-catalog" id="roomCatalog"></div>
+        </section>
+
+        <section class="view" id="view-room-detail">
+          <button type="button" class="btn btn-ghost" id="btnBackBrowse">← Kembali ke daftar</button>
+          <div class="panel" id="roomDetailCard"></div>
+        </section>
+
+        <section class="view" id="view-book-room">
+          <div class="panel form-panel">
+            <h3>Form Pemesanan</h3>
+            <p class="muted" id="bookRoomHint"></p>
+            <p class="auth-error" id="bookError" hidden></p>
+            <form id="bookForm" class="form-grid">
+              <input type="hidden" name="roomId" id="bookRoomId" />
+              <label class="field"><span>Nama</span><input type="text" name="guestName" /></label>
+              <label class="field"><span>Telepon</span><input type="tel" name="phone" /></label>
+              <label class="field span-2"><span>Email</span><input type="text" name="email" /></label>
+              <label class="field"><span>Tanggal check-in</span><input type="date" name="checkIn" /></label>
+              <label class="field"><span>Durasi sewa (bulan)</span><input type="number" name="durationMonths" min="1" value="1" /></label>
+              <label class="field span-2"><span>Catatan</span><textarea name="notes" rows="2"></textarea></label>
+              <div class="form-actions span-2"><button type="submit" class="btn btn-primary">Kirim pemesanan</button></div>
+            </form>
+          </div>
+        </section>
+
+        <section class="view" id="view-my-bookings">
+          <div class="reservation-grid" id="myBookingCards"></div>
+        </section>
+
+        <!-- TENANT -->
+        <section class="view" id="view-tenant-home">
+          <div class="stats-grid" id="tenantStats"></div>
+          <div class="panel"><h3>Tagihan aktif</h3><div id="tenantActiveBills"></div></div>
+        </section>
+
+        <section class="view" id="view-tenant-bills">
+          <div class="table-wrap">
+            <table class="data-table" id="tenantBillsTable">
+              <thead><tr><th>Periode</th><th>Nominal</th><th>Jatuh tempo</th><th>Status</th><th>Aksi</th></tr></thead>
+              <tbody></tbody>
+            </table>
+          </div>
+        </section>
+
+        <section class="view" id="view-tenant-upload">
+          <div class="panel form-panel">
+            <h3>Unggah bukti transfer</h3>
+            <p class="muted">Format JPG, PNG, atau PDF. Maksimal 2 MB. Status akan menjadi Menunggu Verifikasi.</p>
+            <p class="auth-error" id="uploadError" hidden></p>
+            <form id="uploadForm" class="form-grid">
+              <label class="field span-2">
+                <span>Pilih tagihan</span>
+                <select name="invoiceId" id="uploadInvoiceSelect"></select>
+              </label>
+              <label class="field span-2">
+                <span>Berkas bukti</span>
+                <input type="file" name="proof" accept="image/jpeg,image/png,image/webp,application/pdf" />
+              </label>
+              <div class="form-actions span-2"><button type="submit" class="btn btn-primary">Kirim bukti</button></div>
+            </form>
+          </div>
+        </section>
+
+        <section class="view" id="view-tenant-payments">
+          <div class="table-wrap">
+            <table class="data-table" id="tenantPayTable">
+              <thead><tr><th>Invoice</th><th>Periode</th><th>Nominal</th><th>Status</th><th>Keterangan</th></tr></thead>
+              <tbody></tbody>
+            </table>
+          </div>
+        </section>
+
+        <section class="view" id="view-tenant-complaints">
+          <div class="panel form-panel">
+            <h3>Buat pengaduan</h3>
+            <p class="auth-error" id="complaintError" hidden></p>
+            <form id="complaintForm" class="form-grid">
+              <label class="field span-2">
+                <span>Kategori</span>
+                <select name="category">
+                  <option>Fasilitas kamar</option>
+                  <option>Air & listrik</option>
+                  <option>Kebersihan</option>
+                  <option>Keamanan</option>
+                  <option>Lainnya</option>
+                </select>
+              </label>
+              <label class="field span-2"><span>Deskripsi</span><textarea name="description" rows="3"></textarea></label>
+              <label class="field span-2"><span>Foto (opsional)</span><input type="file" name="photo" accept="image/jpeg,image/png,image/webp" /></label>
+              <div class="form-actions span-2"><button type="submit" class="btn btn-primary">Kirim pengaduan</button></div>
+            </form>
+          </div>
+          <div class="panel">
+            <h3>Pengaduan saya</h3>
+            <ul class="activity-list" id="myComplaints"></ul>
+          </div>
+        </section>
+
+        <section class="view" id="view-account">
+          <div class="dashboard-panels">
+            <div class="panel">
+              <h3>Data diri</h3>
+              <p class="auth-error" id="accountError" hidden></p>
+              <form id="accountForm" class="form-grid" style="grid-template-columns:1fr">
+                <label class="field"><span>Nama</span><input type="text" name="name" /></label>
+                <label class="field"><span>Email</span><input type="text" name="email" /></label>
+                <label class="field"><span>Telepon</span><input type="tel" name="phone" /></label>
+                <button type="submit" class="btn btn-primary">Simpan profil</button>
+              </form>
+            </div>
+            <div class="panel">
+              <h3>Ubah kata sandi</h3>
+              <p class="auth-error" id="passError" hidden></p>
+              <form id="passwordForm" class="form-grid" style="grid-template-columns:1fr">
+                <label class="field"><span>Kata sandi saat ini</span><input type="password" name="oldPassword" /></label>
+                <label class="field"><span>Kata sandi baru</span><input type="password" name="newPassword" /></label>
+                <button type="submit" class="btn btn-primary">Perbarui kata sandi</button>
+              </form>
+            </div>
+          </div>
+        </section>
+      </main>
+    </div>
+  </div>
+
+  <dialog class="modal" id="appModal">
+    <form class="modal-box" id="modalForm">
+      <header class="modal-header">
+        <h3 id="modalTitle">Form</h3>
+        <button type="button" class="modal-close" id="modalClose" aria-label="Tutup">×</button>
+      </header>
+      <div class="modal-body" id="modalBody"></div>
+      <footer class="modal-footer">
+        <button type="button" class="btn btn-ghost" id="modalCancel">Batal</button>
+        <button type="submit" class="btn btn-primary" id="modalSubmit">Simpan</button>
+      </footer>
+    </form>
+  </dialog>
+
+  <div class="toast-container" id="toastContainer" aria-live="polite"></div>
+  <script src="auth.js"></script>
+  <script src="store.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
